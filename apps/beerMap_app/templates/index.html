@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Beer Map</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        /* Always set the map height explicitly to define the size of the div
+            * element that contains the map. */
+        #map {
+            /* height: 100%; */
+            height: 500px;
+            width:100%
+        }
+        /* Optional: Makes the sample page fill the window. */
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Beer Map</h1>
+    <div id="map"></div>
+    <script>
+        var map;
+        function initMap() {
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: {lat: 47.6062, lng: -122.3321},
+                zoom: 10
+            });
+                
+            beerIcon = "http://icons.iconarchive.com/icons/paomedia/small-n-flat/32/beer-icon.png"
+
+            var markers = [
+                {
+                    coords: {lat:47.666694, lng:-122.371210},
+                    icon: beerIcon,
+                    content: "<a target='_blank' href='http://stoupbrewing.com/'>Stoup Brewing</a>"
+                },
+                {
+                    coords: {lat:47.63083, lng:-122.374527},
+                    icon: beerIcon,
+                    content: "<a target='_blank' href='https://holymountainbrewing.com/'>Holy Mountain</a>"
+                },
+                {
+                    coords: {lat:47.660627, lng:-122.390294},
+                    icon: beerIcon,
+                    content: "<a target='_blank' href='http://www.urbanfamilybrewing.com/'>Urban Family</a>",
+                },
+
+            ];
+
+            for (var i=0; i<markers.length; i++){
+                addMarker(markers[i])
+            }
+
+            function addMarker(props){
+                var marker = new google.maps.Marker({
+                    position: props.coords,
+                    map: map,
+                    icon: props.icon,
+                    title: "Bothell!"
+                });
+
+                if(props.iconImage){
+                    marker.setIcon(props.icon)
+                }
+
+                if (props.content){
+                    var infoWindow = new google.maps.InfoWindow({
+                        content: props.content,
+                    });
+
+                    marker.addListener("click", function(){
+                        infoWindow.open(map, marker);
+                        // map.setCenter(marker.getPosition());
+                    });
+                }
+            }
+        }
+
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAC70ho7Fp24IT7S65ZOhzVoe5hd_VfkFc&callback=initMap"
+    async defer></script>
+</body>
+</html>
